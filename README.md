@@ -34,9 +34,9 @@ There are four files that contain all instructions for the course:
 | File | Description |
 |------|-------------|
 | README.md | The file that you are reading now, containing course information, logistics, and guidelines |
-| assignment_1_GPT.ipynb | Jupyter notebook for Assignment 1 focusing on GPT language models |
-| assignment_2_VLM.ipynb | Jupyter notebook for Assignment 2 focusing on vision-language models |
-| open_assignment.md | Instructions for the open-ended project component of the course |
+| [assignment_1_GPT.ipynb](assignments/assignment_1_GPT.ipynb) | Jupyter notebook for Assignment 1 focusing on GPT language models |
+| [assignment_2_VLM.ipynb](assignments/assignment_2_VLM.ipynb) | Jupyter notebook for Assignment 2 focusing on vision-language models |
+| [open_assignment.md](assignments/open_assignment.md) | Instructions for the open-ended project component of the course |
 
 Detailed instructions, theory questions, and code skeletons are provided directly within the Jupyter notebooks. Additionally, there are links to videos, papers and other recommended reading materials that you will find helpful in your work. 
 
