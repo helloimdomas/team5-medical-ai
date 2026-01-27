@@ -127,8 +127,12 @@ Submit one set of deliverables per group via Canvas. Punctual submissions are ex
 
 ## 5. Grading
 The final course grade is based on three components:
-* **Assignment 1:** 25%
+* **Assignment 1:**
+  * 20% answers to practical exercises
+  * 5% flipped classroom log
 * **Assignment 2:** 25%
+  * 20% answers to practical exercises
+  * 5% flipped classroom log
 * **Open Project:** 50%
 
 ### Assessment Rubric for Assignments 1 & 2
@@ -138,7 +142,7 @@ The final course grade is based on three components:
 | **Understanding (Theory)** | Descriptions of methods are copied/pasted or incorrect; fails to convey understanding. | Descriptions are written in own words and show good understanding of the material. | Demonstrates mastery of the material; makes insightful connections between different methods or theories. |
 | **Code Quality** | Code crashes or has errors; lack of documentation; unstructured "spaghetti code." | Code is self-contained and runs without errors; basic documentation provided; easy to reproduce results. | Code is user-friendly, modular, and well-structured; detailed documentation. |
 | **Results & Analysis** | Plots/Results are missing, mislabeled, or confusing; no analysis provided. | Clear plots with captions; correctly interpreted results (e.g., loss curves). | Professional visualizations; insightful analysis of why the model behaved that way (e.g., overfitting signs). |
-| **Flipped Classroom Logs** | Logs are missing, incomplete, or trivial (e.g., one-word answers). | Logs are complete and clearly document the questions asked as Client and resources/advice shared as Consultant. | Logs demonstrate deep engagement; questions were insightful and Consultant contributions added significant value. |
+| **Flipped Classroom Logs** | Group was absent or logs are missing, incomplete, or trivial (e.g., one-word answers). | Logs are complete and clearly document the questions asked as Client and resources/advice shared as Consultant. | Logs demonstrate deep engagement; questions were insightful and Consultant contributions added significant value. |
 
 ### Assessment Rubric for the Open Project
 
