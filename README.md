@@ -33,7 +33,7 @@ There are four files that contain all instructions for the course:
 
 | File | Description |
 |------|-------------|
-| README.md | The file that you are reading now, containing course information, logistics and guidelines |
+| README.md | The file that you are reading now, containing course information, logistics, and guidelines |
 | assignment_1_GPT.ipynb | Jupyter notebook for Assignment 1 focusing on GPT language models |
 | assignment_2_VLM.ipynb | Jupyter notebook for Assignment 2 focusing on vision-language models |
 | open_assignment.md | Instructions for the open-ended project component of the course |
@@ -50,13 +50,13 @@ The course is worth 5 ECTS. You are expected to spend **28 hours per ECTS** (140
 ### Flipped Classroom Model
 This is a **project-based course**. You are expected to work independently and proactively within your groups. We do not provide step-by-step instructions; you must navigate technical challenges and make methodological decisions under the guidance of TAs and instructors.
 
-The course has one kick-off meeting and five lectures. The lectures are in a **flipped classroom** setting. In this course, "flipped Classroom" means you read the papers and other materials, and watch the videos at home as a **preparation for the lecture**. During the lecture, you actively discuss questions and topics about the material with other groups. You do not sit and listen to a lecture.
+The course has one kick-off meeting and five lectures. The lectures are in a **flipped classroom** setting. In this course, "flipped classroom" means you read the papers and other materials, and watch the videos at home as a **preparation for the lecture**. During the lecture, you actively discuss questions and topics about the material with other groups. You do not sit and listen to a lecture.
 
 ### Work in Groups
 All assignments are performed in groups of 4 students via self-assignment in Canvas. Groups are divided into two sets (**Odd-numbered groups** and **Even-numbered groups**) with rotating roles:
 
-* **Clients:** Responsible for identifying gaps in understanding. Prepare theory and coding/implementation questions to pose to Consultants.
-* **Consultants:** Support the discussion. Review material beforehand to brainstorm, answer Client questions, and exchange resources.
+* **Clients:** Responsible for identifying gaps in understanding. Prepare theory and coding/implementation questions to pose to Consultants during the flipped classroom.
+* **Consultants:** Support the discussion. Review the suggested material to prepare to brainstorm, answer Client questions, and exchange resources during the flipped classroom.
 
 ### Conflict Resolution & Individual Grading
 Professional collaboration within the groups is expected. If significant imbalance occurs, approach the TA/instructor immediately. Upon request, a formal peer review will assess individual contributions, potentially resulting in individual grades for students differing from the group average.
@@ -123,7 +123,7 @@ The pitch session follows a structured **Formative Review** model designed to va
 * **Scientific Poster:** A single-page PDF summarizing research questions, experiments, and results.
 
 ### Submission Mechanics
-Submit one set of deliverables per group via Canvas. Punctual submissions are expected, though small delays for valid technical issues (e.g., code crashes) are not penalized. Inform instructors immediately of significant delays.
+Submit one set of deliverables per group via Canvas. Punctual submissions are expected, though small delays for valid technical issues (e.g., code crashes) are not penalized. Inform the instructors immediately of significant delays.
 
 ## 5. Grading
 The final course grade is based on three components:
@@ -136,7 +136,7 @@ The final course grade is based on three components:
 | Component | Insufficient | Satisfactory | Excellent |
 | :--- | :--- | :--- | :--- |
 | **Understanding (Theory)** | Descriptions of methods are copied/pasted or incorrect; fails to convey understanding. | Descriptions are written in own words and show good understanding of the material. | Demonstrates mastery of the material; makes insightful connections between different methods or theories. |
-| **Code Quality** | Code crashes or has errors; lack of documentation; unstructured "spaghetti code." | Code is self-contained and runs without errors; basic documentation provided; easy to reproduce results. | Code is user-friendly, modular, and well-structured; detailed documentation; optimized for performance. |
+| **Code Quality** | Code crashes or has errors; lack of documentation; unstructured "spaghetti code." | Code is self-contained and runs without errors; basic documentation provided; easy to reproduce results. | Code is user-friendly, modular, and well-structured; detailed documentation. |
 | **Results & Analysis** | Plots/Results are missing, mislabeled, or confusing; no analysis provided. | Clear plots with captions; correctly interpreted results (e.g., loss curves). | Professional visualizations; insightful analysis of why the model behaved that way (e.g., overfitting signs). |
 | **Flipped Classroom Logs** | Logs are missing, incomplete, or trivial (e.g., one-word answers). | Logs are complete and clearly document the questions asked as Client and resources/advice shared as Consultant. | Logs demonstrate deep engagement; questions were insightful and Consultant contributions added significant value. |
 
