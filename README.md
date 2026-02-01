@@ -66,7 +66,7 @@ Professional collaboration within the groups is expected. If significant imbalan
 
 | Week | Activity | Deadlines | Odd-numbered Groups Role | Even-numbered Groups Role |
 | :--- | :--- | :--- | :--- | :--- |
-| **Week 1** | Intro lecture | | | |
+| **Week 1** | Kick-off meeting | | | |
 | **Week 2** | Assignment 1 flipped classroom | | Clients | Consultants |
 | **Carnival** | 🎭 🎪 🍺 | | | |
 | **Week 3** | Assignment 1 flipped classroom | Assignment 1 due | Consultants | Clients |
