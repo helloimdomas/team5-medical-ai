@@ -18,7 +18,7 @@ if we were to enter a sentence to fill in the blank in the middle of the sentenc
 blockers:
 
 
-why do we sample the outputs, not pick just the one with the highest probability always? (IN MEDICAL WE WOULD USE THE ONE WITH THE HIGHEST PROBABILITY) - deterministic output
+why do we sample the outputs, not pick just the one with the highest probability always? (IN MEDICAL WE WOULD USE THE ONE WITH THE HIGHEST PROBABILITY) - deterministic output (TEMPERATURE MEANING)
 
 dropouts to fix overfitting
 
