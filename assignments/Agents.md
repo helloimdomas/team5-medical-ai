@@ -5,3 +5,4 @@ When writing markdown:
 3. don't use weird symbols as "×" that don't come on a keyboard
 4. don't use "-" to ephasize something in a sentence, just put a comma instead. Example: instead of "this shows that even with 3x more iterations, the lower learning rate cannot catch up to the default — the optimizer's small step size remains a bottleneck" write "this shows that even with 3x more iterations, the lower learning rate cannot catch up to the default (,) (and) (so) (anything else but the "-") the optimizer's small step size remains a bottleneck"
 5. don't use words that are made up of multiple smaller words joined by "-" for example instead "multi-task learning" , use "multitask learning"
+6. when writing equations, avoid literal escape sequences like "\_" and spell out variable names with regular words so rendered math doesn't show stray backslashes
