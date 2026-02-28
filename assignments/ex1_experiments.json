@@ -1,0 +1,143 @@
+[
+  {
+    "label": "sep=<ENDC>",
+    "sep": "\n<ENDC>\n",
+    "vocab_size": 109,
+    "eval_steps": [
+      0,
+      200,
+      400,
+      600,
+      800,
+      1000,
+      1200,
+      1400,
+      1600,
+      1800,
+      2000
+    ],
+    "train_losses": [
+      4.6861371994018555,
+      2.391085147857666,
+      1.9943199157714844,
+      1.6745153665542603,
+      1.5020570755004883,
+      1.354833960533142,
+      1.2637505531311035,
+      1.1792569160461426,
+      1.1488523483276367,
+      1.077931523323059,
+      1.0485374927520752
+    ],
+    "val_losses": [
+      4.688506603240967,
+      2.405224561691284,
+      2.006032705307007,
+      1.7126362323760986,
+      1.5853333473205566,
+      1.4211935997009277,
+      1.3567816019058228,
+      1.2631325721740723,
+      1.2111523151397705,
+      1.1592755317687988,
+      1.149228811264038
+    ],
+    "final_train_loss": 1.0485374927520752,
+    "final_val_loss": 1.149228811264038,
+    "generated_sample": "H&E stained section showing a durance of the nests or anal classs a deposition of specture typically in a sopphilic wer oderation. This cells and prominent hyperce of the epidermis, and nests a nuclear atypia chinorphasm of a venular a nevi laests of the tumor cells welly tissue lesion prominent wer atypia cluar cells with a large patttern grown a reanultinular features of denocally diffele cells in the ther connective in the an an arraked metastatocytes of epidermis in the dutakeratinous the surcular sected ident alplays"
+  },
+  {
+    "label": "sep=\" \"",
+    "sep": " ",
+    "vocab_size": 108,
+    "eval_steps": [
+      0,
+      200,
+      400,
+      600,
+      800,
+      1000,
+      1200,
+      1400,
+      1600,
+      1800,
+      2000
+    ],
+    "train_losses": [
+      4.687218189239502,
+      2.297884464263916,
+      1.8713210821151733,
+      1.6200432777404785,
+      1.4421414136886597,
+      1.319219946861267,
+      1.2047703266143799,
+      1.1623764038085938,
+      1.1685171127319336,
+      1.097456932067871,
+      1.1074986457824707
+    ],
+    "val_losses": [
+      4.69282341003418,
+      2.340259313583374,
+      1.9462990760803223,
+      1.638177514076233,
+      1.4766974449157715,
+      1.3849984407424927,
+      1.312087059020996,
+      1.2688441276550293,
+      1.228215217590332,
+      1.185940146446228,
+      1.169070839881897
+    ],
+    "final_train_loss": 1.1074986457824707,
+    "final_val_loss": 1.169070839881897,
+    "generated_sample": "H&E stained section showing a the ovid surginous round epithelioid characterized in the epidermis. The dermis and polypoid active fraved as eplopide melanocytic nuclei, and erythematous of the elorid berous stromatic nevus, primary consided on a wall invasion (CFMN). This a 200x ory in in the eryt and sheets of the epidermonstration in the epidermis, and eristive tin the frequencludinoma in the dermis of the eleveosid chorded fon the clinical firming of melanocytes and the form the patient, observed with a super of a the "
+  },
+  {
+    "label": "sep=\"\"",
+    "sep": "",
+    "vocab_size": 108,
+    "eval_steps": [
+      0,
+      200,
+      400,
+      600,
+      800,
+      1000,
+      1200,
+      1400,
+      1600,
+      1800,
+      2000
+    ],
+    "train_losses": [
+      4.742938041687012,
+      2.3821866512298584,
+      1.9532281160354614,
+      1.6759250164031982,
+      1.4615918397903442,
+      1.348488211631775,
+      1.2553483247756958,
+      1.200561285018921,
+      1.1522234678268433,
+      1.1506718397140503,
+      1.0840083360671997
+    ],
+    "val_losses": [
+      4.744325637817383,
+      2.411343574523926,
+      1.9320118427276611,
+      1.7396785020828247,
+      1.5426130294799805,
+      1.4171496629714966,
+      1.3221570253372192,
+      1.2771426439285278,
+      1.2019448280334473,
+      1.1991299390792847,
+      1.1488038301467896
+    ],
+    "final_train_loss": 1.0840083360671997,
+    "final_val_loss": 1.1488038301467896,
+    "generated_sample": "H&E stained section showing epithelial infiltration of a upphas and pigmented well4. Hithelium and sidentified clear of a cerbiosis of a no fibrous the invasion from a 3-year-old with a poor scatter, of a consistent were compose or composed with or lesion (LM) showth an the chrough nodular to infiltration or overation a typigmente of smalion on surrounding nuclei, and non-plastic prests in the size and seve cells with parthout. This provitional partion (CM) showing a diagnosis of lesion the with neoplasmic, epithelioid me"
+  }
+]
