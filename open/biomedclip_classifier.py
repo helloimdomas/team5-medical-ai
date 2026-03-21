@@ -2,13 +2,12 @@
 BiomedCLIP-based melanoma vs nevus classifier.
 
 Extracts image embeddings using BiomedCLIP and trains a classifier.
-Compares accuracy against MedGemma's captioning approach.
 
 Setup:
     pip install open_clip_torch scikit-learn datasets pillow
 
 Usage:
-    python lab2/biomedclip_classifier.py
+    python open/biomedclip_classifier.py
 """
 
 import json
@@ -16,7 +15,8 @@ import os
 import numpy as np
 from pathlib import Path
 
-INDEX_FILE = os.path.join(os.path.dirname(__file__), "melanoma_nevus_indices.json")
+SCRIPT_DIR = Path(__file__).parent
+INDEX_FILE = SCRIPT_DIR / "indices" / "melanoma_nevus_indices.json"
 CACHE_DIR = os.path.expanduser("~/.cache/huggingface")
 
 
@@ -128,6 +128,81 @@ def train_and_evaluate(X, y, indices, test_size=0.2, random_state=42):
     return results, classifiers, (X_train, X_test, y_train, y_test, idx_train, idx_test)
 
 
+def zero_shot_classify(model, preprocess, tokenizer, device, dataset, indices, melanoma_set):
+    """Zero-shot classification using text embeddings for 'melanoma' and 'nevus'."""
+    import torch
+    
+    print("\n" + "="*60)
+    print("ZERO-SHOT CLASSIFICATION")
+    print("="*60)
+    
+    # Create text embeddings for melanoma and nevus
+    text_prompts = [
+        "a histopathology image of melanoma",
+        "a histopathology image of nevus"
+    ]
+    text_tokens = tokenizer(text_prompts).to(device)
+    
+    with torch.no_grad():
+        text_embeddings = model.encode_text(text_tokens)
+        text_embeddings = text_embeddings / text_embeddings.norm(dim=-1, keepdim=True)
+    
+    correct = 0
+    melanoma_correct = 0
+    melanoma_total = 0
+    nevus_correct = 0
+    nevus_total = 0
+    
+    print(f"Classifying {len(indices)} images zero-shot...")
+    
+    for i, idx in enumerate(indices):
+        sample = dataset[idx]
+        img = sample["image"]
+        
+        # Get image embedding
+        img_tensor = preprocess(img).unsqueeze(0).to(device)
+        with torch.no_grad():
+            img_embedding = model.encode_image(img_tensor)
+            img_embedding = img_embedding / img_embedding.norm(dim=-1, keepdim=True)
+        
+        # Compute similarity to each class
+        similarities = (img_embedding @ text_embeddings.T).squeeze()
+        pred_idx = similarities.argmax().item()
+        pred_label = "melanoma" if pred_idx == 0 else "nevus"
+        
+        true_label = "melanoma" if idx in melanoma_set else "nevus"
+        
+        if pred_label == true_label:
+            correct += 1
+        
+        if true_label == "melanoma":
+            melanoma_total += 1
+            if pred_label == "melanoma":
+                melanoma_correct += 1
+        else:
+            nevus_total += 1
+            if pred_label == "nevus":
+                nevus_correct += 1
+        
+        if (i + 1) % 100 == 0:
+            print(f"  [{i+1}/{len(indices)}] Acc: {correct/(i+1)*100:.1f}%")
+    
+    accuracy = correct / len(indices)
+    sensitivity = melanoma_correct / melanoma_total if melanoma_total > 0 else 0
+    specificity = nevus_correct / nevus_total if nevus_total > 0 else 0
+    
+    print(f"\nZero-shot Results:")
+    print(f"  Accuracy: {accuracy*100:.1f}%")
+    print(f"  Sensitivity (melanoma): {sensitivity*100:.1f}%")
+    print(f"  Specificity (nevus): {specificity*100:.1f}%")
+    
+    return {
+        "accuracy": accuracy,
+        "sensitivity": sensitivity,
+        "specificity": specificity,
+    }
+
+
 def main():
     import torch
     
@@ -141,55 +216,58 @@ def main():
         subprocess.run(["pip", "install", "open_clip_torch", "-q"], check=True)
         import open_clip
     
-    # Load BiomedCLIP
+    # Load BiomedCLIP with tokenizer
     model, preprocess_train, preprocess_val = open_clip.create_model_and_transforms(
         "hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224"
     )
+    tokenizer = open_clip.get_tokenizer("hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224")
     device = "mps" if torch.backends.mps.is_available() else "cuda" if torch.cuda.is_available() else "cpu"
     model = model.to(device)
     model.eval()
     print(f"Model loaded on {device}")
     
-    # Load dataset
+    # Load dataset (full dataset, not just train split)
     print("Loading Open-MELON dataset...")
-    from datasets import load_dataset
-    ds = load_dataset("MartiHan/Open-MELON-VL-2.5K", split="train", cache_dir=CACHE_DIR)
+    from datasets import load_dataset, concatenate_datasets
+    ds_raw = load_dataset("MartiHan/Open-MELON-VL-2.5K", cache_dir=CACHE_DIR)
+    ds = concatenate_datasets([ds_raw["train"], ds_raw["validation"], ds_raw["test"]])
+    print(f"Dataset loaded: {len(ds)} images")
     
     # Load indices
     idx_data = load_indices()
     target_indices = sorted(idx_data["melanoma"] + idx_data["nevus"])
+    melanoma_set = set(idx_data["melanoma"])
     print(f"Total images: {len(target_indices)} (melanoma: {len(idx_data['melanoma'])}, nevus: {len(idx_data['nevus'])})")
     
-    # Extract embeddings
+    # Zero-shot classification first
+    zero_shot_results = zero_shot_classify(model, preprocess_val, tokenizer, device, ds, target_indices, melanoma_set)
+    
+    # Extract embeddings for supervised classification
     X, y, indices = extract_embeddings(model, preprocess_val, device, ds, target_indices)
     print(f"Embeddings shape: {X.shape}")
     
-    # Train and evaluate
+    # Train and evaluate supervised classifiers
     results, classifiers, splits = train_and_evaluate(X, y, indices)
     
-    # Compare with MedGemma
+    # Print best result
     print("\n" + "="*60)
-    print("COMPARISON WITH MEDGEMMA")
+    print("BEST SUPERVISED CLASSIFIER RESULTS")
     print("="*60)
-    print(f"MedGemma V4 (constrained prompt):")
-    print(f"  Accuracy: 70.3%")
-    print(f"  Sensitivity: 96.6%")
-    print(f"  Specificity: 13.9%")
-    
     best_clf = max(results.items(), key=lambda x: x[1]["test_accuracy"])
-    print(f"\nBest BiomedCLIP classifier ({best_clf[0]}):")
+    print(f"Best classifier: {best_clf[0]}")
     print(f"  Accuracy: {best_clf[1]['test_accuracy']*100:.1f}%")
     print(f"  Sensitivity: {best_clf[1]['sensitivity']*100:.1f}%")
     print(f"  Specificity: {best_clf[1]['specificity']*100:.1f}%")
     
-    if best_clf[1]["test_accuracy"] > 0.703:
-        print(f"\n✅ BiomedCLIP BEATS MedGemma by {(best_clf[1]['test_accuracy']-0.703)*100:.1f}%!")
-    else:
-        print(f"\n⚠️ MedGemma still ahead by {(0.703-best_clf[1]['test_accuracy'])*100:.1f}%")
+    # Comparison summary
+    print("\n" + "="*60)
+    print("ZERO-SHOT vs SUPERVISED COMPARISON")
+    print("="*60)
+    print(f"Zero-shot:  Acc={zero_shot_results['accuracy']*100:.1f}%, Sens={zero_shot_results['sensitivity']*100:.1f}%, Spec={zero_shot_results['specificity']*100:.1f}%")
+    print(f"Supervised: Acc={best_clf[1]['test_accuracy']*100:.1f}%, Sens={best_clf[1]['sensitivity']*100:.1f}%, Spec={best_clf[1]['specificity']*100:.1f}%")
     
     # Save results
-    script_dir = Path(__file__).parent
-    results_dir = script_dir / "results"
+    results_dir = SCRIPT_DIR / "results"
     results_dir.mkdir(exist_ok=True)
     output_path = results_dir / "biomedclip_results.json"
     with open(output_path, "w") as f:
@@ -197,17 +275,15 @@ def main():
             "model": "BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
             "embedding_dim": X.shape[1],
             "n_samples": len(target_indices),
-            "results": results,
-            "comparison": {
-                "medgemma_v4_accuracy": 0.703,
-                "medgemma_v4_sensitivity": 0.966,
-                "medgemma_v4_specificity": 0.139,
-            }
+            "zero_shot": zero_shot_results,
+            "supervised": results,
         }, f, indent=2)
     print(f"\nResults saved to: {output_path}")
     
     # Save embeddings for future use
-    embeddings_path = Path(__file__).parent.parent / "biomedclip_embeddings.npz"
+    embeddings_dir = SCRIPT_DIR / "embeddings"
+    embeddings_dir.mkdir(exist_ok=True)
+    embeddings_path = embeddings_dir / "biomedclip_embeddings.npz"
     np.savez(embeddings_path, X=X, y=y, indices=np.array(indices))
     print(f"Embeddings saved to: {embeddings_path}")
 

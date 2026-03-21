@@ -1,0 +1,10 @@
+{
+  "prompt_id": "binary_choice",
+  "timestamp": "2026-03-21T06:27:10.875824",
+  "total": 920,
+  "accuracy": 66.96,
+  "sensitivity": 99.35,
+  "specificity": 0.66,
+  "avg_faithfulness": 0.444,
+  "avg_relevance": 0.573
+}

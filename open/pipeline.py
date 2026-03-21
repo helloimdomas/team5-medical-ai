@@ -36,6 +36,7 @@ import yaml
 SCRIPT_DIR = Path(__file__).parent
 CONFIG_FILE = SCRIPT_DIR / "configs" / "prompts.yaml"
 INDEX_FILE = SCRIPT_DIR / "indices" / "melanoma_nevus_indices.json"
+CAPTIONS_FILE = SCRIPT_DIR / "captions" / "captions_cleaned.jsonl"
 OLLAMA_MODEL = "dcarrascosa/medgemma-1.5-4b-it:Q4_K_M"
 GEMINI_MODEL = "gemma-3-27b-it"
 API_KEY = os.environ.get("GEMINI_API_KEY", "")
@@ -72,11 +73,35 @@ def load_indices():
     return all_indices, melanoma_set
 
 
+def load_cleaned_captions():
+    """Load cleaned captions for RAGAS evaluation from captions_cleaned.jsonl."""
+    captions = {}
+    with open(CAPTIONS_FILE) as f:
+        for line in f:
+            entry = json.loads(line)
+            captions[entry["index"]] = {
+                "label": entry["label"],
+                "cleaned": entry["cleaned"],
+                "original": entry.get("original", ""),
+            }
+    return captions
+
+
 def image_to_base64(pil_image):
     """Convert PIL image to base64."""
     buf = io.BytesIO()
     pil_image.save(buf, format="PNG")
     return base64.b64encode(buf.getvalue()).decode("utf-8")
+
+
+def strip_confidence(caption: str) -> str:
+    """Strip confidence level from caption format: 'Description. Diagnosis. Confidence.'"""
+    # Remove common confidence patterns like "High.", "Low.", "Medium.", "High confidence.", etc.
+    import re
+    # Remove trailing confidence indicators
+    caption = re.sub(r'\s*(High|Medium|Low|Moderate)\.?\s*$', '', caption, flags=re.IGNORECASE)
+    caption = re.sub(r'\s*(High|Medium|Low|Moderate)\s+confidence\.?\s*$', '', caption, flags=re.IGNORECASE)
+    return caption.strip()
 
 
 # === THREAD 1: GENERATOR ===
@@ -85,6 +110,7 @@ def generator_thread(
     target_indices: list,
     melanoma_set: set,
     dataset,
+    cleaned_captions: dict,
     output_queue: Queue,
     caption_file: Path,
     done_indices: set,
@@ -114,11 +140,15 @@ def generator_thread(
             continue
 
         label = "melanoma" if idx in melanoma_set else "nevus"
+        
+        # Use cleaned caption from captions_cleaned.jsonl for RAGAS evaluation
+        caption_gt = cleaned_captions.get(idx, {}).get("cleaned", sample.get("caption", ""))
+        
         cap = Caption(
             index=idx,
             label=label,
             pmc_id=sample["pmc_id"],
-            caption_gt=sample["caption"],
+            caption_gt=caption_gt,
             caption_gen=caption_gen,
         )
 
@@ -262,10 +292,13 @@ Reply ONLY: {{"score": X.XX, "reason": "brief explanation"}}"""
         if cap is None:
             break
 
+        # Strip confidence level from generated caption for RAGAS evaluation
+        caption_for_eval = strip_confidence(cap.caption_gen)
+
         # Faithfulness
         faith_prompt = faith_prompt_template.format(
             reference=cap.caption_gt[:500],
-            generated=cap.caption_gen[:500],
+            generated=caption_for_eval[:500],
         )
         faith_result = call_gemma(faith_prompt)
         cap.faithfulness = faith_result["score"]
@@ -274,7 +307,7 @@ Reply ONLY: {{"score": X.XX, "reason": "brief explanation"}}"""
         # Relevance
         rel_prompt = rel_prompt_template.format(
             reference=cap.caption_gt[:500],
-            generated=cap.caption_gen[:500],
+            generated=caption_for_eval[:500],
         )
         rel_result = call_gemma(rel_prompt)
         cap.relevance = rel_result["score"]
@@ -325,7 +358,7 @@ def print_progress(results: dict, total: int, prompt_id: str):
     )
 
 
-def run_prompt(prompt_id: str, prompt_text: str, target_indices: list, melanoma_set: set, dataset):
+def run_prompt(prompt_id: str, prompt_text: str, target_indices: list, melanoma_set: set, dataset, cleaned_captions: dict):
     """Run full pipeline for one prompt."""
     print(f"\n{'='*60}")
     print(f"RUNNING: {prompt_id}")
@@ -366,7 +399,7 @@ def run_prompt(prompt_id: str, prompt_text: str, target_indices: list, melanoma_
     # Start threads
     gen_thread = threading.Thread(
         target=generator_thread,
-        args=(prompt_text, target_indices, melanoma_set, dataset, gen_to_class, caption_file, done_indices, stop_event),
+        args=(prompt_text, target_indices, melanoma_set, dataset, cleaned_captions, gen_to_class, caption_file, done_indices, stop_event),
     )
     class_thread = threading.Thread(
         target=classifier_thread,
@@ -434,6 +467,11 @@ def main():
     prompts = load_config()
     all_indices, melanoma_set = load_indices()
     
+    # Load cleaned captions for RAGAS evaluation
+    print("Loading cleaned captions from captions_cleaned.jsonl...", flush=True)
+    cleaned_captions = load_cleaned_captions()
+    print(f"Loaded {len(cleaned_captions)} cleaned captions")
+    
     if args.n > 0:
         all_indices = all_indices[:args.n]
     
@@ -454,7 +492,7 @@ def main():
         if pid not in prompts:
             print(f"Unknown prompt: {pid}")
             continue
-        run_prompt(pid, prompts[pid]["prompt"], all_indices, melanoma_set, dataset)
+        run_prompt(pid, prompts[pid]["prompt"], all_indices, melanoma_set, dataset, cleaned_captions)
 
     print("\n" + "="*60)
     print("ALL PROMPTS COMPLETE")

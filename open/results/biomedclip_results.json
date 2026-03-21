@@ -1,63 +1,63 @@
 {
   "model": "BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
   "embedding_dim": 512,
-  "n_samples": 680,
-  "results": {
+  "n_samples": 920,
+  "zero_shot": {
+    "accuracy": 0.6880434782608695,
+    "sensitivity": 0.8122977346278317,
+    "specificity": 0.4337748344370861
+  },
+  "supervised": {
     "LogisticRegression": {
-      "cv_accuracy": 0.7445973496432213,
-      "cv_std": 0.03852900871510412,
-      "test_accuracy": 0.7647058823529411,
-      "sensitivity": 0.7956989247311828,
-      "specificity": 0.6976744186046512,
+      "cv_accuracy": 0.7377551020408164,
+      "cv_std": 0.03469387755102041,
+      "test_accuracy": 0.7010869565217391,
+      "sensitivity": 0.7419354838709677,
+      "specificity": 0.6166666666666667,
       "confusion_matrix": [
         [
-          30,
-          13
+          37,
+          23
         ],
         [
-          19,
-          74
+          32,
+          92
         ]
       ]
     },
     "SVM (RBF)": {
-      "cv_accuracy": 0.7555895344886171,
-      "cv_std": 0.03700766010671749,
-      "test_accuracy": 0.7794117647058824,
-      "sensitivity": 0.8064516129032258,
-      "specificity": 0.7209302325581395,
+      "cv_accuracy": 0.7540448611877183,
+      "cv_std": 0.035513435954835866,
+      "test_accuracy": 0.7119565217391305,
+      "sensitivity": 0.75,
+      "specificity": 0.6333333333333333,
       "confusion_matrix": [
         [
-          31,
-          12
+          38,
+          22
         ],
         [
-          18,
-          75
+          31,
+          93
         ]
       ]
     },
     "RandomForest": {
-      "cv_accuracy": 0.7169384981311586,
-      "cv_std": 0.026555161192572833,
-      "test_accuracy": 0.7941176470588235,
-      "sensitivity": 0.956989247311828,
-      "specificity": 0.4418604651162791,
+      "cv_accuracy": 0.7296010296010296,
+      "cv_std": 0.021464081052260008,
+      "test_accuracy": 0.7391304347826086,
+      "sensitivity": 0.9193548387096774,
+      "specificity": 0.36666666666666664,
       "confusion_matrix": [
         [
-          19,
-          24
+          22,
+          38
         ],
         [
-          4,
-          89
+          10,
+          114
         ]
       ]
     }
-  },
-  "comparison": {
-    "medgemma_v4_accuracy": 0.703,
-    "medgemma_v4_sensitivity": 0.966,
-    "medgemma_v4_specificity": 0.139
   }
 }

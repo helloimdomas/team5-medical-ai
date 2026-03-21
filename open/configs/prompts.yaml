@@ -24,6 +24,6 @@ prompts:
 
 # To add a new prompt:
 # 1. Copy an existing prompt
-# 2. Change ONE thing at a time
+# 2. Change one thing at a time
 # 3. Run: python generate_captions.py --prompt-id YOUR_ID
 # 4. Run: python evaluate_captions.py --prompt-id YOUR_ID
