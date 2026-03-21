@@ -1,0 +1,22 @@
+{
+  "n_trials": 10,
+  "samples_per_class": 216,
+  "balanced_results": {
+    "MedGemma (binary_choice)": {
+      "mean": 53.21839080459769,
+      "std": 5.392507634822944
+    },
+    "BiomedCLIP + LogReg": {
+      "mean": 72.64367816091955,
+      "std": 4.385927362836531
+    },
+    "BiomedCLIP + SVM": {
+      "mean": 73.5632183908046,
+      "std": 4.300755616981543
+    },
+    "BiomedCLIP + RandomForest": {
+      "mean": 73.2183908045977,
+      "std": 3.7085668517015344
+    }
+  }
+}

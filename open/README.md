@@ -440,6 +440,21 @@ The fundamental challenge is that melanoma and nevus exist on a spectrum. Early 
 
 Both models handle classic cases reasonably well but fail on borderline and variant cases. The class imbalance in our dataset (618 melanoma vs 302 nevus) also biases models toward predicting melanoma.
 
+### Balanced Accuracy Analysis
+
+The accuracy numbers reported above are misleading due to class imbalance. With 2:1 ratio of melanoma to nevus, a model that predicts "melanoma" for everything would achieve 67% accuracy by chance. To get a fair comparison, we ran `balanced_accuracy.py` which randomly samples equal numbers from each class.
+
+| Model | Original Accuracy | Balanced Accuracy |
+|-------|-------------------|-------------------|
+| MedGemma (binary_choice) | 68.4% | **53.2%** (random chance!) |
+| BiomedCLIP + RandomForest | 73.9% | **73.2%** |
+| BiomedCLIP + SVM | 71.2% | **73.6%** |
+| BiomedCLIP + LogReg | 70.1% | **72.6%** |
+
+This reveals a critical finding: **MedGemma's apparent 68% accuracy is entirely due to class imbalance**. When classes are balanced, MedGemma drops to 53%, which is essentially random guessing.
+
+BiomedCLIP, in contrast, maintains its accuracy (~73%) regardless of class balance. This confirms that BiomedCLIP's embeddings contain genuine discriminative information, while MedGemma's captioning approach provides no real classification ability for this task.
+
 ### Key Takeaways
 
 MedGemma struggles with this task despite being a medical-focused model. When given an open-ended prompt (baseline), it generates diverse diagnoses that often do not match the expected classes. When constrained to binary output, it defaults to predicting the majority class (melanoma) almost exclusively. This suggests the model may not have learned robust visual features that distinguish melanoma from nevus, or the prompt design is insufficient for reliable classification.
