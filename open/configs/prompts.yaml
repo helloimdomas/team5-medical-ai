@@ -1,0 +1,29 @@
+# Prompt configurations for MedGemma caption generation
+#
+# Usage:
+#   python generate_captions.py --prompt-id PROMPT_ID
+#   python evaluate_captions.py --prompt-id PROMPT_ID
+#
+# Output structure:
+#   captions/{prompt_id}/captions.jsonl
+#   results/{prompt_id}/eval.json
+#   results/{prompt_id}/ragas.json
+
+prompts:
+  baseline:
+    name: "Baseline"
+    description: "Standard pathologist prompt with certainty"
+    prompt: |
+      You are a pathologist examining a biopsy. Describe the key histological features in 2-3 sentences. Do not list differentials or next steps. Provide your best guess for the diagnosis and your certainty level (high/low). Answer format: Description. Diagnosis. Confidence.
+
+  binary_choice:
+    name: "Binary Choice"
+    description: "Constrains diagnosis to melanoma vs benign nevus"
+    prompt: |
+      You are a pathologist examining a biopsy. This lesion is either MELANOMA or a BENIGN NEVUS. Describe the key histological features in 2-3 sentences. Do not list differentials or next steps. State your diagnosis (melanoma or benign nevus) and your certainty level (high/low). Answer format: Description. Diagnosis. Confidence.
+
+# To add a new prompt:
+# 1. Copy an existing prompt
+# 2. Change ONE thing at a time
+# 3. Run: python generate_captions.py --prompt-id YOUR_ID
+# 4. Run: python evaluate_captions.py --prompt-id YOUR_ID

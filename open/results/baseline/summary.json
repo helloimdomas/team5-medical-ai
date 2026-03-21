@@ -1,0 +1,10 @@
+{
+  "prompt_id": "baseline",
+  "timestamp": "2026-03-21T00:22:30.628348",
+  "total": 35,
+  "accuracy": 8.57,
+  "sensitivity": 9.09,
+  "specificity": 0.0,
+  "avg_faithfulness": 0.163,
+  "avg_relevance": 0.213
+}

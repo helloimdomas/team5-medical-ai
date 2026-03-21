@@ -1,0 +1,65 @@
+{
+  "summary": {
+    "samples": 4,
+    "avg_faithfulness": 0.165,
+    "avg_relevancy": 0.9
+  },
+  "results": [
+    {
+      "index": 3,
+      "label": "melanoma",
+      "faithfulness": {
+        "score": 0.33,
+        "reason": "The generated caption mentions 'dermal proliferation' and 'melanocytic nests', which are not consistent with the reference describing uveal melanoma in the eye.  However, it correctly identifies 'prominent pigment' and 'lack of clear maturation' as features present in the reference."
+      },
+      "relevancy": {
+        "score": 1.0,
+        "reason": "The caption describes histological features, provides a diagnosis of melanoma, and includes a certainty level (high). It fully addresses all aspects of the prompt."
+      },
+      "caption_gen": "The biopsy shows a dermal proliferation of melanocytic nests. These nests are irregular in shape and size, with prominent pigment. There is a lack of clear maturation and symmetry.\n\nDiagnosis: Melanom",
+      "caption_gt": "Histopathology showing spindle cell uveal melanoma from a left eye choroidal pigmented malignant melanoma, classified as invasive in the ciliary body and cornea (stage IIIB, pT4bN0M0). The microscopic"
+    },
+    {
+      "index": 4,
+      "label": "melanoma",
+      "faithfulness": {
+        "score": 0.0,
+        "reason": "The generated caption describes a skin biopsy and melanoma, while the reference caption describes a uveal melanoma in the eye."
+      },
+      "relevancy": {
+        "score": 1.0,
+        "reason": "The caption describes visual findings (atypical melanocytes, irregular nuclei, prominent nucleoli, disorganized pigment), provides a diagnosis (melanoma), and includes a certainty level (high). It fully addresses all aspects of the prompt."
+      },
+      "caption_gen": "The image shows a skin biopsy. Key features include atypical melanocytes with irregular nuclei and prominent nucleoli, along with a disorganized pattern of pigment. These features are suggestive of me",
+      "caption_gt": "Histopathology showing spindle cell uveal melanoma with corneal invasion. The image is stained with hematoxylin and eosin (HE) at \u00d7100 magnification."
+    },
+    {
+      "index": 5,
+      "label": "melanoma",
+      "faithfulness": {
+        "score": 0.0,
+        "reason": "The generated caption describes epidermal and dermal features, while the reference focuses on uveal melanoma in the eye."
+      },
+      "relevancy": {
+        "score": 0.8,
+        "reason": "The caption describes visual findings and provides a diagnosis with certainty level as requested. However, it lacks the key histological features in 2-3 sentences as explicitly asked for in the prompt."
+      },
+      "caption_gen": "The epidermis shows a regular pattern of rete ridges. The dermis contains a prominent pigment network with irregular borders and variation in pigmentation. There is a lack of maturation and atypia in ",
+      "caption_gt": "Histopathology showing spindle cell uveal melanoma with invasion of the ciliary processes. The image is stained with hematoxylin and eosin (HE) at \u00d7100 magnification."
+    },
+    {
+      "index": 6,
+      "label": "melanoma",
+      "faithfulness": {
+        "score": 0.33,
+        "reason": "The generated caption mentions 'spindle cells', 'elongated nuclei', and 'scant cytoplasm' which are consistent with the reference description of 'amelanotic variants of melanoma cells'. However, claims about 'dense proliferation' and 'prominent vascular network' are not explicitly mentioned in the reference. Additionally, the diagnosis and certainty provided by the generated caption are not present in the reference."
+      },
+      "relevancy": {
+        "score": 0.8,
+        "reason": "The caption describes visual findings (spindle cells, nuclei, cytoplasm, vascular network) and provides both diagnosis (melanoma) and certainty level (high). It lacks the brevity requested in the prompt (2-3 sentences)."
+      },
+      "caption_gen": "The biopsy shows a dense proliferation of spindle cells with elongated nuclei and scant cytoplasm. There is a prominent vascular network.\n\nDiagnosis: Melanoma\nCertainty: High",
+      "caption_gt": "Histopathology at \u00d720 magnification, illustrating amelanotic variants of melanoma cells. These cells lack melanin, making them challenging to diagnose in routine hematoxylin and eosin (H&E)-stained sp"
+    }
+  ]
+}
